@@ -209,6 +209,11 @@ class PipelineEdgeCaseTests(unittest.TestCase):
         response = VTONPipeline().run(request)
         self.assertEqual(response.status, "completed")
         self.assertGreater(response.latency_ms, 0)
+        preprocessing = response.metadata["preprocessing"]
+        self.assertTrue(str(preprocessing["person_segmentation"]).startswith("seg://person/"))
+        self.assertTrue(str(preprocessing["garment_segmentation"]).startswith("seg://garment/"))
+        self.assertEqual(preprocessing["pose_keypoints"], "standing")
+        self.assertEqual(preprocessing["pose_confidence"], 0.95)
 
     def test_all_garment_categories_are_accepted(self) -> None:
         for category in GarmentCategory:
@@ -223,4 +228,3 @@ class PipelineEdgeCaseTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

@@ -48,6 +48,7 @@ class VTONPipeline:
                 "quality_mode": request.quality_mode.value,
                 "engine_mode": request.engine_mode.value,
                 "provider_reference": engine_result.provider_reference,
+                "preprocessing": prepared["preprocessing"],
             },
         )
 

@@ -15,30 +15,35 @@ Recent virtual try-on research has converged on diffusion-based architectures, w
 - **Strengths:** Strong garment fidelity, preserves fine details like logos and textures. Achieves state-of-the-art results on VITON-HD and DressCode benchmarks.
 - **Weaknesses:** Relatively high inference cost due to dual encoding. Pose-robustness on extreme poses is still limited.
 - **VPE Relevance:** The dual garment encoding strategy is directly relevant to the enhanced cross-attention encoding planned for VPE.
+- **Reference:** [arXiv:2403.05139](https://arxiv.org/abs/2403.05139), [official GitHub](https://github.com/yisol/IDM-VTON)
 
 #### OOTDiffusion (2024)
 - **Approach:** Outfitting over a diffusion model with a learning-based feature fusion approach. Uses outfitting UNet to learn garment features independently.
 - **Strengths:** Good generalization across garment types. Clean separation of garment and person encoding.
 - **Weaknesses:** Struggles with complex poses and occluded garments. Multi-view consistency is not addressed.
 - **VPE Relevance:** The independent garment feature learning approach aligns with VPE's garment encoder design.
+- **Reference:** [arXiv:2403.01779](https://arxiv.org/abs/2403.01779)
 
 #### StableVITON (2024)
 - **Approach:** Extends Stable Diffusion with a zero cross-attention block for try-on. Avoids the need for paired training data by using a novel semantic correspondence module.
 - **Strengths:** Generates realistic results with minimal paired data. Works with Stable Diffusion ecosystem.
 - **Weaknesses:** Quality drops on non-standard body types and poses. Brand-specific adaptation is not explored.
 - **VPE Relevance:** The zero cross-attention approach could inform VPE's cross-attention design. The unpaired training idea reduces dataset requirements.
+- **Reference:** [arXiv:2312.01725](https://arxiv.org/abs/2312.01725), [CVF paper](https://openaccess.thecvf.com/content/CVPR2024/papers/Kim_StableVITON_Learning_Semantic_Correspondence_with_Latent_Diffusion_Model_for_Virtual_CVPR_2024_paper.pdf)
 
 #### GP-VTON (2023)
 - **Approach:** Focuses on garment preservation through a warping module and a generation module. Uses DensePose for body representation.
 - **Strengths:** Strong garment shape preservation. DensePose conditioning improves body-garment alignment.
 - **Weaknesses:** Warping artifacts can appear on garments with complex patterns. Two-stage pipeline adds latency.
 - **VPE Relevance:** DensePose conditioning is part of VPE's preprocessing plan. The warping module approach should be evaluated against direct diffusion generation.
+- **Reference:** [arXiv:2303.13756](https://arxiv.org/abs/2303.13756), [CVF paper](https://openaccess.thecvf.com/content/CVPR2023/papers/Xie_GP-VTON_Towards_General_Purpose_Virtual_Try-On_via_Collaborative_Local-Flow_Global-Parsing_CVPR_2023_paper.pdf)
 
 #### CatVTON (2024)
 - **Approach:** A simple yet effective concatenation-based approach that avoids complex cross-attention or warping. Uses lightweight adaptation to a pre-trained diffusion model.
 - **Strengths:** Simple architecture with competitive quality. Lower training and inference cost.
 - **Weaknesses:** Less control over fine-grained garment details. Limited pose handling.
 - **VPE Relevance:** Shows that simpler architectures can be competitive. Useful as a baseline comparison for VPE.
+- **Reference:** [arXiv:2407.15886](https://arxiv.org/abs/2407.15886)
 
 ### Pose Estimation and Body Representation
 
@@ -73,6 +78,7 @@ Key techniques relevant to VPE:
 - **Quality Target:** High garment fidelity, clean composition, handles diverse body types
 - **Limitations:** Not publicly available as an API. Requires massive internal datasets.
 - **VPE Benchmark:** Represents the aspirational quality target. VPE should approach this quality level progressively, starting with priority categories.
+- **Reference:** [Google Shopping virtual try-on dresses update](https://blog.google/products-and-platforms/products/shopping/virtual-try-on-dresses/), [Google try-on product guide](https://blog.google/products-and-platforms/products/shopping/how-to-use-google-shopping-try-it-on/)
 
 ### Other Commercial Solutions
 
@@ -93,6 +99,12 @@ Key techniques relevant to VPE:
 | DeepFashion | ~800K images | Various | Broader fashion dataset, not VTON-specific |
 
 VPE should evaluate on VITON-HD and DressCode for academic comparison, plus internal brand-specific benchmark sets for production quality assessment.
+
+Dataset references:
+
+- VITON-HD: [arXiv:2103.16874](https://arxiv.org/abs/2103.16874), [CVF paper](https://openaccess.thecvf.com/content/CVPR2021/papers/Choi_VITON-HD_High-Resolution_Virtual_Try-On_via_Misalignment-Aware_Normalization_CVPR_2021_paper.pdf)
+- Dress Code: [arXiv:2204.08532](https://arxiv.org/abs/2204.08532), [CVF paper](https://openaccess.thecvf.com/content/CVPR2022W/CVFAD/papers/Morelli_Dress_Code_High-Resolution_Multi-Category_Virtual_Try-On_CVPRW_2022_paper.pdf)
+- DeepFashion: [CVF paper](https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Liu_DeepFashion_Powering_Robust_CVPR_2016_paper.pdf)
 
 ## 5. Key Architectural Insights for VPE
 
