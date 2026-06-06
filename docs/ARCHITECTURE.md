@@ -4,28 +4,46 @@
 
 VPE-1.0 is designed as a modular virtual try-on system. The architecture separates provider integrations, proprietary model inference, evaluation, and production serving.
 
-```text
-User / Product UI
-       |
-       v
-VTON API Gateway
-       |
-       v
-Request Validation and Asset Preprocessing
-       |
-       +-------------------+
-       |                   |
-       v                   v
-Baseline Provider      Proprietary VPE Model
-       |                   |
-       +---------+---------+
-                 |
-                 v
-Postprocessing and QA Checks
-                 |
-                 v
-Storage, Monitoring, and Feedback Loop
+### High-Level Architecture
+
+```mermaid
+flowchart TD
+    A["User / Product UI"] --> B["VTON API Gateway"]
+    B --> C["Request Validation"]
+    C --> D["Asset Preprocessing"]
+
+    D --> D1["Person Segmentation"]
+    D --> D2["Garment Segmentation"]
+    D --> D3["Pose Keypoint Extraction"]
+    D --> D4["DensePose Estimation"]
+    D --> D5["Image Normalization"]
+
+    D1 & D2 & D3 & D4 & D5 --> E{"Engine Router"}
+
+    E -->|baseline| F["Baseline Provider Adapter\n(Fashn.ai VTON-1.5)"]
+    E -->|proprietary| G["Proprietary VPE Model"]
+
+    G --> G1["Garment Encoder\n(Semantic + Detail)"]
+    G --> G2["Person & Pose Encoder"]
+    G1 & G2 --> G3["Enhanced Cross-Attention Blocks"]
+    G3 --> G4["Pose-Aware Transformer Blocks"]
+    G4 --> G5["Multi-View Conditioning Module"]
+    G5 --> G6["Diffusion Backbone"]
+    G6 --> G7["Brand LoRA Module"]
+
+    F & G7 --> H["Postprocessing"]
+    H --> H1["Face & Identity Check"]
+    H --> H2["Garment Boundary Cleanup"]
+    H --> H3["Artifact Detection"]
+    H --> H4["Resolution Upscaling"]
+
+    H1 & H2 & H3 & H4 --> I["Quality Gate"]
+    I --> J["Storage & Delivery"]
+    J --> K["Monitoring & Feedback Loop"]
+    K -.-> L["Training Data Backlog"]
+    L -.-> G
 ```
+
 
 ## 2. Inputs
 

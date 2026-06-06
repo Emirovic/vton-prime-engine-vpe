@@ -26,10 +26,15 @@ This checklist maps the requested project brief to repository deliverables.
 | Out-of-scope boundaries | Covered | `docs/PROJECT_PLAN.md` |
 | Success criteria and release targets | Covered | `docs/EVALUATION.md`, `README.md` |
 | Project organization and core team | Covered | `docs/TEAM_ORGANIZATION.md` |
+| Cost estimation and budget framework | Covered | `docs/COST_ESTIMATION.md` |
+| Related work and competitive analysis | Covered | `docs/LITERATURE_REVIEW.md` |
+| Legal, IP, and compliance strategy | Covered | `docs/LEGAL_IP_STRATEGY.md` |
+| Preprocessing pipeline module | Covered | `src/vpe/preprocessing.py` |
 | Runnable starter code | Covered | `src/vpe/` |
 | Unit tests | Covered | `tests/test_pipeline.py` |
 
 ## Notes
 
 This submission is a project-plan and engineering-scaffold package. It does not include a trained image-generation model, physical cloth simulation, full 3D avatar reconstruction, or video try-on because those are explicitly outside the release-1 scope or require long-running research and GPU training.
+
 

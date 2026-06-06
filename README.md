@@ -17,16 +17,19 @@ Build a proprietary virtual try-on engine that starts with a Fashn.ai VTON-1.5-s
 ## What Is Included
 
 - Submission summary for reviewers
-- Project plan and phased roadmap
-- Technical architecture proposal
+- Project plan and phased roadmap with timeline visualization
+- Technical architecture proposal with Mermaid diagrams
 - Evaluation framework and success metrics
 - Gap analysis against target quality dimensions
+- Related work and competitive landscape analysis
+- Cost estimation and budget framework
 - Dataset, training, GPU, and MLOps workflow
 - Deployment, monitoring, and continuous improvement plan
 - Team organization and ownership model
 - Risk and mitigation plan
-- Minimal Python scaffold for a VTON pipeline
-- Unit tests for the pipeline contract
+- Legal, IP, and compliance strategy
+- Python scaffold with preprocessing, pipeline, engines, and evaluation modules
+- Unit tests with edge case coverage
 - GitHub Actions CI for test verification
 
 ## Repository Structure
@@ -36,10 +39,13 @@ Build a proprietary virtual try-on engine that starts with a Fashn.ai VTON-1.5-s
 ├── docs/
 │   ├── ARCHITECTURE.md
 │   ├── COMPLETION_CHECKLIST.md
+│   ├── COST_ESTIMATION.md
 │   ├── DATASET_TRAINING.md
 │   ├── DEPLOYMENT_MONITORING.md
 │   ├── EVALUATION.md
 │   ├── GAP_ANALYSIS.md
+│   ├── LEGAL_IP_STRATEGY.md
+│   ├── LITERATURE_REVIEW.md
 │   ├── MLOPS_INFRASTRUCTURE.md
 │   ├── PROJECT_PLAN.md
 │   ├── RISKS.md
@@ -53,6 +59,7 @@ Build a proprietary virtual try-on engine that starts with a Fashn.ai VTON-1.5-s
 │       ├── engines.py
 │       ├── evaluation.py
 │       ├── pipeline.py
+│       ├── preprocessing.py
 │       └── schemas.py
 ├── tests/
 │   └── test_pipeline.py
@@ -83,10 +90,13 @@ The repository maps directly to the requested project scope:
 - Baseline integration strategy: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/GAP_ANALYSIS.md](docs/GAP_ANALYSIS.md)
 - Quality targets and success metrics: [docs/EVALUATION.md](docs/EVALUATION.md)
 - Architecture upgrades: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- Related work and competitive analysis: [docs/LITERATURE_REVIEW.md](docs/LITERATURE_REVIEW.md)
+- Cost estimation and budget framework: [docs/COST_ESTIMATION.md](docs/COST_ESTIMATION.md)
 - Dataset and training workflow: [docs/DATASET_TRAINING.md](docs/DATASET_TRAINING.md)
 - GPU infrastructure and MLOps: [docs/MLOPS_INFRASTRUCTURE.md](docs/MLOPS_INFRASTRUCTURE.md)
 - Deployment and monitoring: [docs/DEPLOYMENT_MONITORING.md](docs/DEPLOYMENT_MONITORING.md)
 - Team organization: [docs/TEAM_ORGANIZATION.md](docs/TEAM_ORGANIZATION.md)
+- Legal, IP, and compliance: [docs/LEGAL_IP_STRATEGY.md](docs/LEGAL_IP_STRATEGY.md)
 - Full completion checklist: [docs/COMPLETION_CHECKLIST.md](docs/COMPLETION_CHECKLIST.md)
 
 ## Delivery Strategy
