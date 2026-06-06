@@ -7,7 +7,8 @@ from time import perf_counter
 from typing import Optional
 
 from .config import EngineConfig
-from .schemas import QualityMode, TryOnRequest, TryOnResponse
+from .engines import BaselineProviderAdapter, EngineResult, ProprietaryVPEAdapter
+from .schemas import EngineMode, TryOnRequest, TryOnResponse
 
 
 class VTONPipeline:
@@ -20,27 +21,31 @@ class VTONPipeline:
 
     def __init__(self, config: Optional[EngineConfig] = None) -> None:
         self.config = config or EngineConfig()
+        self.baseline_engine = BaselineProviderAdapter()
+        self.proprietary_engine = ProprietaryVPEAdapter()
 
     def run(self, request: TryOnRequest) -> TryOnResponse:
         self._validate_request(request)
         started = perf_counter()
 
         prepared = self._preprocess(request)
-        output_uri = self._generate(prepared)
-        quality_flags = self._postprocess(prepared, output_uri)
+        engine_result = self._generate(request)
+        quality_flags = self._postprocess(prepared, engine_result)
 
         latency_ms = max(1, int((perf_counter() - started) * 1000))
         return TryOnResponse(
             request_id=request.request_id,
             status="completed",
-            engine=self.config.default_engine,
-            output_image_uri=output_uri,
+            engine=engine_result.engine_name,
+            output_image_uri=engine_result.output_image_uri,
             latency_ms=latency_ms,
             quality_flags=quality_flags,
             metadata={
                 "brand_id": request.brand_id,
                 "garment_category": request.garment_category.value,
                 "quality_mode": request.quality_mode.value,
+                "engine_mode": request.engine_mode.value,
+                "provider_reference": engine_result.provider_reference,
             },
         )
 
@@ -59,20 +64,19 @@ class VTONPipeline:
         }
         return payload
 
-    def _generate(self, prepared_request: dict[str, object]) -> str:
-        request_id = str(prepared_request["request_id"])
-        quality_mode = prepared_request["quality_mode"]
-        suffix = "preview" if quality_mode == QualityMode.PREVIEW else "production"
-        return f"vpe://generated/{request_id}_{suffix}.jpg"
+    def _generate(self, request: TryOnRequest) -> EngineResult:
+        if request.engine_mode == EngineMode.BASELINE:
+            return self.baseline_engine.generate(request)
+        return self.proprietary_engine.generate(request)
 
     def _postprocess(
         self,
         prepared_request: dict[str, object],
-        output_uri: str,
+        engine_result: EngineResult,
     ) -> list[str]:
         flags: list[str] = []
         if prepared_request.get("garment_category") == "unknown":
             flags.append("unknown_garment_category")
-        if not output_uri:
+        if not engine_result.output_image_uri:
             flags.append("missing_output")
         return flags

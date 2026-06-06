@@ -7,7 +7,7 @@ import json
 from dataclasses import asdict
 
 from .pipeline import VTONPipeline
-from .schemas import GarmentCategory, QualityMode, TryOnRequest
+from .schemas import EngineMode, GarmentCategory, QualityMode, TryOnRequest
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -27,6 +27,12 @@ def build_parser() -> argparse.ArgumentParser:
         choices=[mode.value for mode in QualityMode],
         help="Try-on quality mode",
     )
+    parser.add_argument(
+        "--engine",
+        default=EngineMode.PROPRIETARY.value,
+        choices=[engine.value for engine in EngineMode],
+        help="Generation engine route",
+    )
     return parser
 
 
@@ -38,6 +44,7 @@ def main() -> None:
         garment_category=GarmentCategory(args.category),
         brand_id=args.brand,
         quality_mode=QualityMode(args.quality),
+        engine_mode=EngineMode(args.engine),
     )
     response = VTONPipeline().run(request)
     print(json.dumps(asdict(response), indent=2))
@@ -45,4 +52,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

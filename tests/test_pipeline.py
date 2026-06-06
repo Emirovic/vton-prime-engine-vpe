@@ -2,7 +2,7 @@ import unittest
 
 from src.vpe.evaluation import QualityScores, is_release_candidate, severe_artifact_rate
 from src.vpe.pipeline import VTONPipeline
-from src.vpe.schemas import GarmentCategory, QualityMode, TryOnRequest
+from src.vpe.schemas import EngineMode, GarmentCategory, QualityMode, TryOnRequest
 
 
 class VTONPipelineTests(unittest.TestCase):
@@ -13,6 +13,7 @@ class VTONPipelineTests(unittest.TestCase):
             garment_category=GarmentCategory.TOP,
             brand_id="demo-brand",
             quality_mode=QualityMode.PRODUCTION,
+            engine_mode=EngineMode.PROPRIETARY,
         )
 
         response = VTONPipeline().run(request)
@@ -20,8 +21,23 @@ class VTONPipelineTests(unittest.TestCase):
         self.assertEqual(response.status, "completed")
         self.assertEqual(response.request_id, request.request_id)
         self.assertEqual(response.metadata["brand_id"], "demo-brand")
+        self.assertEqual(response.engine, "vpe-proprietary")
         self.assertTrue(response.output_image_uri.startswith("vpe://generated/"))
         self.assertEqual(response.quality_flags, [])
+
+    def test_pipeline_can_route_to_baseline_provider(self) -> None:
+        request = TryOnRequest(
+            person_image_uri="sample_person.jpg",
+            garment_image_uri="sample_garment.jpg",
+            garment_category=GarmentCategory.DRESS,
+            engine_mode=EngineMode.BASELINE,
+        )
+
+        response = VTONPipeline().run(request)
+
+        self.assertEqual(response.engine, "baseline-fashn-vton-1.5")
+        self.assertTrue(response.output_image_uri.startswith("baseline://fashn-vton-1.5/"))
+        self.assertIsNotNone(response.metadata["provider_reference"])
 
     def test_pipeline_rejects_missing_person_image(self) -> None:
         request = TryOnRequest(
@@ -68,4 +84,3 @@ class EvaluationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

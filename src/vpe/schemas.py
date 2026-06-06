@@ -20,6 +20,11 @@ class QualityMode(str, Enum):
     PRODUCTION = "production"
 
 
+class EngineMode(str, Enum):
+    BASELINE = "baseline"
+    PROPRIETARY = "proprietary"
+
+
 @dataclass(frozen=True)
 class TryOnRequest:
     """Input contract for a virtual try-on request."""
@@ -29,6 +34,7 @@ class TryOnRequest:
     garment_category: GarmentCategory = GarmentCategory.UNKNOWN
     brand_id: Optional[str] = None
     quality_mode: QualityMode = QualityMode.PREVIEW
+    engine_mode: EngineMode = EngineMode.PROPRIETARY
     request_id: str = field(default_factory=lambda: f"vpe_{uuid4().hex[:12]}")
 
 
