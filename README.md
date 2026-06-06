@@ -16,6 +16,7 @@ Build a proprietary virtual try-on engine that starts with a Fashn.ai VTON-1.5-s
 
 ## What Is Included
 
+- Submission summary for reviewers
 - Project plan and phased roadmap
 - Technical architecture proposal
 - Evaluation framework and success metrics
@@ -26,6 +27,7 @@ Build a proprietary virtual try-on engine that starts with a Fashn.ai VTON-1.5-s
 - Risk and mitigation plan
 - Minimal Python scaffold for a VTON pipeline
 - Unit tests for the pipeline contract
+- GitHub Actions CI for test verification
 
 ## Repository Structure
 
@@ -54,9 +56,14 @@ Build a proprietary virtual try-on engine that starts with a Fashn.ai VTON-1.5-s
 │       └── schemas.py
 ├── tests/
 │   └── test_pipeline.py
+├── SUBMISSION.md
 ├── .gitignore
 └── pyproject.toml
 ```
+
+## Reviewer Shortcut
+
+Start with [SUBMISSION.md](SUBMISSION.md), then use [docs/COMPLETION_CHECKLIST.md](docs/COMPLETION_CHECKLIST.md) to verify how the repository maps to the requested brief.
 
 ## Quick Start
 
